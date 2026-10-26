@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Optician Practice Portal"
+description = "A staff-facing optician practice portal prototype with sign-in, patient search by name or last four SSN digits, and patient profiles populated with sample data."
+version = "1.0.0"
+id = "artifacts/optician-portal"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18698
+
+[services.development]
+run = "pnpm --filter @workspace/optician-portal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/optician-portal", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/optician-portal/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18698"
+BASE_PATH = "/"
